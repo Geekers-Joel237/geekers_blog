@@ -6,13 +6,16 @@ use App\Business\Commands\SavePostCommand;
 use App\Business\Responses\SavePostResponse;
 use App\Business\UseCases\SavePostHandler;
 use App\Business\Utils\Exceptions\NotEmptyException;
+use App\Service\PostService;
 use PHPUnit\Framework\TestCase;
 
 class SavePostTest extends TestCase
 {
+    private SavePostHandler $handler;
     public function setUp(): void
     {
         parent::setUp();
+        $this->handler = new PostService();
     }
 
     public function test_can_create_a_post()
@@ -49,7 +52,6 @@ class SavePostTest extends TestCase
 
     private function savePost(SavePostCommand $command): SavePostResponse
     {
-        $handler = new SavePostHandler();
-        return $handler->handle($command);
+        return $this->handler->handleSavePost($command);
     }
 }
