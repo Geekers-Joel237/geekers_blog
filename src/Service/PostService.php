@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Business\Commands\SavePostCommand;
 use App\Business\Entities\Post;
+use App\Business\Repositories\PostRepository;
 use App\Business\Responses\SavePostResponse;
 use App\Business\UseCases\SavePostHandler;
 use App\Business\Utils\Exceptions\NotEmptyException;
@@ -11,8 +12,13 @@ use App\Business\VO\Content;
 use App\Business\VO\FullName;
 use App\Business\VO\Title;
 
-class PostService implements SavePostHandler
+readonly class PostService implements SavePostHandler
 {
+    public function __construct(
+        private PostRepository $repository
+    )
+    {
+    }
 
     /**
      * @throws NotEmptyException
@@ -27,6 +33,7 @@ class PostService implements SavePostHandler
             author: new FullName($command->author)
         );
 
+        $this->repository->save(post: $post);
 
         $response->isSaved = true;
         $response->postId = $post->id()->value();
