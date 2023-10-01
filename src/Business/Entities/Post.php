@@ -40,17 +40,19 @@ class Post
      * @param Title $title
      * @param Content $content
      * @param FullName $author
+     * @param Id|null $postId
      * @return self
      * @throws NotEmptyException
      */
     public static function create(
         Title    $title,
         Content  $content,
-        FullName $author
+        FullName $author,
+        ?Id      $postId = null
     ): self
     {
         return new self(
-            postId: Id::nextIdentifier(),
+            postId: $postId ?? Id::nextIdentifier(),
             title: $title,
             slug: new StringVo(self::generateSlugFromTitle($title)),
             content: $content,
@@ -74,5 +76,44 @@ class Post
     public function id(): Id
     {
         return $this->postId;
+    }
+
+    /**
+     * @return Title
+     */
+    public function title(): Title
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return DateVo
+     */
+    public function createdAt(): DateVo
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return DateVo|null
+     */
+    public function updatedAt(): ?DateVo
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->postId->value(),
+            'title' => $this->title->value(),
+            'slug' => $this->slug->value(),
+            'content' => $this->content->value(),
+            'full_name' => $this->fullName->value(),
+            'created_at' => $this->createdAt->value()
+        ];
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Business\Commands;
 
-readonly class SavePostCommand
+class SavePostCommand
 {
 
+    public ?string $postId;
     /**
      * @param string $title
      * @param string $content
@@ -16,6 +17,7 @@ readonly class SavePostCommand
         public string $author
     )
     {
+        $this->postId = null;
     }
 
 }

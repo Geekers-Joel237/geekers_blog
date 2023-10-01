@@ -2,6 +2,8 @@
 
 namespace App\Business\Utils\Exceptions;
 
-class NotEmptyException extends \Exception
+use Exception;
+
+class NotEmptyException extends Exception
 {
 }

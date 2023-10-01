@@ -2,6 +2,8 @@
 
 namespace App\Business\Utils\Exceptions;
 
-class ErrorOnConnectToDatabaseException extends \Exception
+use Exception;
+
+class ErrorOnConnectToDatabaseException extends Exception
 {
 }
