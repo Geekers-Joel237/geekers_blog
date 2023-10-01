@@ -40,17 +40,19 @@ class Post
      * @param Title $title
      * @param Content $content
      * @param FullName $author
+     * @param Id|null $postId
      * @return self
      * @throws NotEmptyException
      */
     public static function create(
         Title    $title,
         Content  $content,
-        FullName $author
+        FullName $author,
+        ?Id      $postId
     ): self
     {
         return new self(
-            postId: Id::nextIdentifier(),
+            postId: $postId ?? Id::nextIdentifier(),
             title: $title,
             slug: new StringVo(self::generateSlugFromTitle($title)),
             content: $content,
