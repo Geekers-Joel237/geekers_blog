@@ -79,21 +79,6 @@ class Post
     }
 
     /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return [
-            'uuid' => $this->postId->value(),
-            'title' => $this->title->value(),
-            'slug' => $this->slug->value(),
-            'content' => $this->content->value(),
-            'full_name' => $this->fullName->value(),
-            'created_at' => $this->createdAt->value()
-        ];
-    }
-
-    /**
      * @return Title
      */
     public function title(): Title
@@ -115,5 +100,20 @@ class Post
     public function updatedAt(): ?DateVo
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->postId->value(),
+            'title' => $this->title->value(),
+            'slug' => $this->slug->value(),
+            'content' => $this->content->value(),
+            'full_name' => $this->fullName->value(),
+            'created_at' => $this->createdAt->value()
+        ];
     }
 }

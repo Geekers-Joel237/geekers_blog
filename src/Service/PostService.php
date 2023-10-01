@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Business\Commands\SavePostCommand;
 use App\Business\Entities\Post;
+use App\Business\Exceptions\ErrorOnSavePostException;
 use App\Business\Repositories\PostRepository;
 use App\Business\Responses\SavePostResponse;
 use App\Business\UseCases\SavePostHandler;
@@ -23,6 +24,7 @@ readonly class PostService implements SavePostHandler
 
     /**
      * @throws NotEmptyException
+     * @throws ErrorOnSavePostException
      */
     public function handleSavePost(SavePostCommand $command): SavePostResponse
     {
