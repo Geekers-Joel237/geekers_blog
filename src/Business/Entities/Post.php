@@ -48,7 +48,7 @@ class Post
         Title    $title,
         Content  $content,
         FullName $author,
-        ?Id      $postId
+        ?Id      $postId = null
     ): self
     {
         return new self(
@@ -76,5 +76,44 @@ class Post
     public function id(): Id
     {
         return $this->postId;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->postId->value(),
+            'title' => $this->title->value(),
+            'slug' => $this->slug->value(),
+            'content' => $this->content->value(),
+            'full_name' => $this->fullName->value(),
+            'created_at' => $this->createdAt->value()
+        ];
+    }
+
+    /**
+     * @return Title
+     */
+    public function title(): Title
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return DateVo
+     */
+    public function createdAt(): DateVo
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return DateVo|null
+     */
+    public function updatedAt(): ?DateVo
+    {
+        return $this->updatedAt;
     }
 }
