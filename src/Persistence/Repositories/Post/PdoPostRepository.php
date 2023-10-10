@@ -3,6 +3,7 @@
 namespace App\Persistence\Repositories\Post;
 
 use App\Business\Entities\Post;
+use App\Business\Enum\ActionEnum;
 use App\Business\Exceptions\ErrorOnQueryPostException;
 use App\Business\Exceptions\ErrorOnSavePostException;
 use App\Business\Repositories\PostRepository;
@@ -34,7 +35,7 @@ readonly class PdoPostRepository implements PostRepository
      */
     public function save(Post $post): void
     {
-        $postDataToSave = Stringify::fromArray($post->toArray());
+        $postDataToSave = Stringify::fromArray($post->toArray(), ActionEnum::SAVE);
         try {
             $sql = "
                     INSERT INTO posts 
@@ -42,7 +43,7 @@ readonly class PdoPostRepository implements PostRepository
             $st = $this->connection->getConnection()->prepare($sql);
             $st->execute();
 
-        }catch (PDOException | Exception $e){
+        } catch (PDOException|Exception $e) {
             throw new ErrorOnSavePostException($e->getMessage());
         }
     }
@@ -77,11 +78,11 @@ readonly class PdoPostRepository implements PostRepository
             $st->setFetchMode(PDO::FETCH_OBJ);
             $st->execute();
             $result = $st->fetch();
-        } catch (PDOException | Exception $e){
+        } catch (PDOException|Exception $e) {
             throw new ErrorOnQueryPostException($e->getMessage());
         }
 
-        if (!$result){
+        if (!$result) {
             return null;
         }
 
@@ -103,5 +104,31 @@ readonly class PdoPostRepository implements PostRepository
             fullName: new FullName($result->fullName),
             createdAt: new DateVo($result->createdAt)
         );
+    }
+
+    /**
+     * @throws ErrorOnSavePostException
+     */
+    public function update(Post $post): Id
+    {
+        $id = $post->id()->value();
+        $postDataToUpdate = Stringify::fromArray($post->toArray(), ActionEnum::UPDATE);
+        try {
+            $sql = "
+                    UPDATE posts SET
+                    $postDataToUpdate 
+                    WHERE uuid = :id";
+            $st = $this->connection->getConnection()->prepare($sql);
+            $st->bindParam('id', $id);
+            $isUpdated = $st->execute();
+
+            if (!$isUpdated) {
+                throw new ErrorOnSavePostException("Erreur lors de la modification du post");
+            }
+        } catch (PDOException|Exception $e) {
+            throw new ErrorOnSavePostException($e->getMessage());
+        }
+
+        return $post->id();
     }
 }
