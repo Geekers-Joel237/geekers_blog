@@ -6,4 +6,5 @@ composer.lock
 ./.phpunit.cache
 ./vendor/*
 .vscode
+.env
 

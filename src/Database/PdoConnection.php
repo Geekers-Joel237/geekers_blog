@@ -46,12 +46,12 @@ class PdoConnection implements DBConnection
      */
     private function initializeEnvironmentVariables(): void
     {
-        $this->driver = $_ENV['DB_CONNECTION'];
-        $this->host = $_ENV['DB_HOST'];
-        $this->port = $_ENV['DB_PORT'];
-        $this->dbName = $_ENV['DB_DATABASE'];
-        $this->userName = $_ENV['DB_USERNAME'];
-        $this->password = $_ENV['DB_PASSWORD'];
+        $this->driver = getenv('DB_CONNECTION');
+        $this->host = getenv('DB_HOST');
+        $this->port = getenv('DB_PORT');
+        $this->dbName = getenv('DB_DATABASE');
+        $this->userName = getenv('DB_USERNAME');
+        $this->password = getenv('DB_PASSWORD');
     }
 
     /**
