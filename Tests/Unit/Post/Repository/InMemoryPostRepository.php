@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Post\Repositories;
+namespace Tests\Unit\Post\Repository;
 
 use App\Business\Entities\Post;
 use App\Business\Repositories\PostRepository;
@@ -28,5 +28,10 @@ class InMemoryPostRepository implements PostRepository
             return $this->posts[$postId->value()];
         }
         return null;
+    }
+
+    public function update(Post $post): void
+    {
+        $this->posts[$post->id()->value()] = $post;
     }
 }

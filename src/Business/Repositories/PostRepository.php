@@ -20,4 +20,6 @@ interface PostRepository
      * @return Post|null
      */
     public function byId(Id $postId): ?Post;
+
+    public function update(Post $post): void;
 }
