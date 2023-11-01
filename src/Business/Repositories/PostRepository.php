@@ -21,5 +21,5 @@ interface PostRepository
      */
     public function byId(Id $postId): ?Post;
 
-    public function update(Post $post): Id;
+    public function update(Post $post): void;
 }

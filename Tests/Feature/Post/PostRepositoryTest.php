@@ -56,6 +56,7 @@ class PostRepositoryTest extends TestCase
     public function test_can_update_a_post()
     {
         $initData = PostSUT::asSut()->withExistingPost()->build();
+        dd($initData);
         $dbPost = $initData->dbPost;
         $postToUpdate = Post::create(
             title: new Title('new Title'),

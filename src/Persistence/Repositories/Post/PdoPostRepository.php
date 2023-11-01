@@ -109,7 +109,7 @@ readonly class PdoPostRepository implements PostRepository
     /**
      * @throws ErrorOnSavePostException
      */
-    public function update(Post $post): Id
+    public function update(Post $post): void
     {
         $id = $post->id()->value();
         $postDataToUpdate = Stringify::fromArray($post->toArray(), ActionEnum::UPDATE);
@@ -129,6 +129,5 @@ readonly class PdoPostRepository implements PostRepository
             throw new ErrorOnSavePostException($e->getMessage());
         }
 
-        return $post->id();
     }
 }

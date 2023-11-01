@@ -7,6 +7,10 @@ use App\Database\Factories\BaseFactory;
 class BaseModel
 {
     use BaseFactory;
+
+    /**
+     * @var self[]|self
+     */
     private array|self $static;
     private array $serialize;
 
