@@ -19,6 +19,15 @@ blog management app like dev.to or medium to grow my skills in : <br> <br>
     
 
 <br>
+
+***_How To Start it :_***<br>
+    _ composer install for install dependencies <br>
+    _ copy .env.example file in .env local file <br>
+    _ create database and test database (phpunit-config) <br>
+    _ run tests
+
+    
+
 ***Just for fun***
 
 
