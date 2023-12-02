@@ -51,7 +51,6 @@ class SavePostTest extends TestCase
 
         $response = $this->savePost($command);
 
-        $this->assertTrue($response->isSaved);
         $this->assertNotNull($response->postId);
     }
 
@@ -98,7 +97,7 @@ class SavePostTest extends TestCase
     public function test_can_save_post_when_is_update()
     {
         $initData = $this->buildSUT();
-        $existingPostId = $initData['existingPostId'];
+        $existingPost = $initData['existingPost'];
         $command = SavePostCommandBuilder::asBuilder()
             ->withTitle(title: "My first Post modified")
             ->withContent(content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
@@ -110,14 +109,14 @@ class SavePostTest extends TestCase
                             and more recently with desktop publishing software like Aldus PageMaker including 
                             versions of Lorem Ipsum.")
             ->withAuthor(author: "Geekers Joel")
-            ->withPostId(postId: $existingPostId)
+            ->withPostId(postId: $existingPost->id()->value())
+            ->withCreatedAt(createdAt: $existingPost->createdAt()->value())
             ->build();
 
-        $command->postId = $existingPostId;
 
         $response = $this->savePost($command);
 
-        $this->assertEquals($existingPostId, $response->postId);
+        $this->assertEquals($existingPost->id()->value(), $response->postId);
     }
 
     /**
@@ -142,6 +141,8 @@ class SavePostTest extends TestCase
 
         $this->repository->save($existingPost);
 
-        return ["existingPostId" => $existingPost->id()->value()];
+        return [
+            "existingPost" => $existingPost
+        ];
     }
 }

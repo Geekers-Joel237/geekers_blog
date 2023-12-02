@@ -11,6 +11,7 @@ class SavePostCommandBuilder
     private string $content;
     private string $author;
     private ?string $postId;
+    private ?string $createdAt;
 
     public static function asBuilder(): self
     {
@@ -19,6 +20,7 @@ class SavePostCommandBuilder
         $self->content = '';
         $self->author = '';
         $self->postId = null;
+        $self->createdAt = null;
 
         return $self;
     }
@@ -54,6 +56,13 @@ class SavePostCommandBuilder
             content: $this->content,
             author: $this->author);
         $command->postId = $this->postId;
+        $command->createdAt = $this->createdAt;
         return $command;
+    }
+
+    public function withCreatedAt(string $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
     }
 }

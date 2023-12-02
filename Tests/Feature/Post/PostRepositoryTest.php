@@ -42,8 +42,8 @@ class PostRepositoryTest extends TestCase
 
         $this->assertNotNull($dbSavedPost);
         $this->assertEquals($postToSave->title()->value(), $dbSavedPost->title()->value());
-        $this->assertNotNull($dbSavedPost->createdAt());
-        $this->assertNull($dbSavedPost->updatedAt());
+        $this->assertNotNull($dbSavedPost->createdAt()->value());
+        $this->assertNull($dbSavedPost->updatedAt()?->value());
     }
 
 
@@ -56,7 +56,6 @@ class PostRepositoryTest extends TestCase
     public function test_can_update_a_post()
     {
         $initData = PostSUT::asSut()->withExistingPost()->build();
-        dd($initData);
         $dbPost = $initData->dbPost;
         $postToUpdate = Post::create(
             title: new Title('new Title'),
@@ -72,7 +71,7 @@ class PostRepositoryTest extends TestCase
         $this->assertNotNull($dbSavedPost);
         $this->assertEquals($postToUpdate->id()->value(), $dbSavedPost->id()->value());
         $this->assertEquals($postToUpdate->title()->value(), $dbSavedPost->title()->value());
-        $this->assertNotNull($dbSavedPost->createdAt());
-        $this->assertNotNull($dbSavedPost->updatedAt());
+        $this->assertNotNull($dbSavedPost->createdAt()->value());
+        $this->assertNotNull($dbSavedPost->updatedAt()->value());
     }
 }

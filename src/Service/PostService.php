@@ -10,6 +10,7 @@ use App\Business\Responses\SavePostResponse;
 use App\Business\UseCases\SavePostHandler;
 use App\Business\Utils\Exceptions\NotEmptyException;
 use App\Business\VO\Content;
+use App\Business\VO\DateVo;
 use App\Business\VO\FullName;
 use App\Business\VO\Id;
 use App\Business\VO\Title;
@@ -34,7 +35,8 @@ readonly class PostService implements SavePostHandler
             title: new Title($command->title),
             content: new Content($command->content),
             author: new FullName($command->author),
-            postId: $command->postId ? new Id($command->postId) : null
+            postId: $command->postId ? new Id($command->postId) : null,
+            createdAt: $command->createdAt ? new DateVo($command->createdAt) : null
         );
 
         $this->repository->save(post: $post);

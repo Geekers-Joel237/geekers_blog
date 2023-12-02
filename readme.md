@@ -15,7 +15,7 @@ blog management app like dev.to or medium to grow my skills in : <br> <br>
     -Html 5 
     -CSS 3
     -SASS
-    -Js
+    -Js/Ts
     
 
 <br>

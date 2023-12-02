@@ -6,6 +6,8 @@ class SavePostCommand
 {
 
     public ?string $postId;
+    public ?string $createdAt;
+
     /**
      * @param string $title
      * @param string $content
@@ -17,7 +19,7 @@ class SavePostCommand
         public string $author
     )
     {
-        $this->postId = null;
+        $this->postId = $this->createdAt = null;
     }
 
 }

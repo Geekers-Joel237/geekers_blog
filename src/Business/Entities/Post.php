@@ -2,6 +2,7 @@
 
 namespace App\Business\Entities;
 
+use App\Business\Enum\PostEventState;
 use App\Business\Utils\Exceptions\NotEmptyException;
 use App\Business\Utils\StrHelper;
 use App\Business\VO\Content;
@@ -15,6 +16,7 @@ class Post
 {
 
     private ?DateVo $updatedAt;
+    private ?PostEventState $eventState;
 
     /**
      * @param Id $postId
@@ -34,6 +36,7 @@ class Post
     )
     {
         $this->updatedAt = null;
+        $this->eventState = null;
     }
 
     /**
@@ -41,6 +44,7 @@ class Post
      * @param Content $content
      * @param FullName $author
      * @param Id|null $postId
+     * @param DateVo|null $createdAt
      * @return self
      * @throws NotEmptyException
      */
@@ -48,26 +52,26 @@ class Post
         Title    $title,
         Content  $content,
         FullName $author,
-        ?Id      $postId = null
+        ?Id      $postId = null,
+        ?DateVo  $createdAt = null
     ): self
     {
-        return new self(
+        $self = new self(
             postId: $postId ?? Id::nextIdentifier(),
             title: $title,
             slug: new StringVo(self::generateSlugFromTitle($title)),
             content: $content,
             fullName: $author,
-            createdAt: new DateVo()
+            createdAt: $createdAt ?? new DateVo()
         );
-    }
 
-    /**
-     * @param Title $title
-     * @return string
-     */
-    private static function generateSlugFromTitle(Title $title): string
-    {
-        return StrHelper::slugify($title->value());
+
+        if ($postId) {
+            $self->updatedAt = new DateVo();
+            $self->eventState = PostEventState::ONUPDATE;
+        }
+
+        return $self;
     }
 
     /**
@@ -107,7 +111,7 @@ class Post
      */
     public function toArray(): array
     {
-        return [
+        $arr = [
             'uuid' => $this->postId->value(),
             'title' => $this->title->value(),
             'slug' => $this->slug->value(),
@@ -115,5 +119,18 @@ class Post
             'full_name' => $this->fullName->value(),
             'created_at' => $this->createdAt->value()
         ];
+        if ($this->eventState === PostEventState::ONUPDATE) {
+            $arr['updated_at'] = $this->updatedAt->value();
+        }
+        return $arr;
+    }
+
+    /**
+     * @param Title $title
+     * @return string
+     */
+    private static function generateSlugFromTitle(Title $title): string
+    {
+        return StrHelper::slugify($title->value());
     }
 }
